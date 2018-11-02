@@ -1,0 +1,18 @@
+Parameters:
+  ExportStackName:
+    Type: 'String'
+    Description: 'Stackname for VPC Subnet Import'
+  KeyPairName:
+    Type: 'String'
+    Description: 'KeyName used for EC2'
+    Default: 'NM-Ninja'
+
+Resources:
+  EC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: 'ami-0bdb828fd58c52235'
+      InstanceType: 't2.micro'
+      KeyName: !Ref 'KeyPairName'
+      SubnetId:
+          Fn::ImportValue: !Sub '${ExportStackName}-PublicSubnetAZ1'
