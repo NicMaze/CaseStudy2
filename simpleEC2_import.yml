@@ -3,9 +3,8 @@ Parameters:
     Type: 'String'
     Description: 'Stackname for VPC Subnet Import'
   KeyPairName:
-    Type: 'String'
-    Description: 'KeyName used for EC2'
-    Default: 'NM-Ninja'
+    Type: AWS::EC2::KeyPair::KeyName # AWS-Specific Parameter Types
+    ConstraintDescription: "Must be the name of an existing EC2 KeyPair."
 
 Resources:
   EC2:
@@ -16,3 +15,5 @@ Resources:
       KeyName: !Ref 'KeyPairName'
       SubnetId:
           Fn::ImportValue: !Sub '${ExportStackName}-PublicSubnetAZ1'
+      # If this were not using !Sub you could use
+      # SubnetId: !ImportValue 'NameOfStackExport'
